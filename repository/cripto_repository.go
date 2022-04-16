@@ -7,6 +7,7 @@ import (
 )
 
 func AdicionarMoeda(cripto model.Cripto) int {
+
 	db := StartDB()
 
 	sqlStatement := `INSERT INTO minhascriptosprincipal.criptomoeda(
@@ -23,17 +24,16 @@ func AdicionarMoeda(cripto model.Cripto) int {
 	switch reqRow {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada")
+		return 0
 	case nil:
-		fmt.Println("Moeda adicionada com ID:", id)
 		return id
 	default:
-		panic(reqRow)
+		return 0
 	}
-
-	return id
 }
 
 func EditarMoeda(cripto model.Cripto) int {
+
 	db := StartDB()
 
 	sqlStatement := `UPDATE minhascriptosprincipal.criptomoeda
@@ -52,16 +52,16 @@ func EditarMoeda(cripto model.Cripto) int {
 	switch reqRow {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada")
+		return 0
 	case nil:
-		fmt.Printf("Cripto com ID: %v e Tipo: %v foi EDITADA!\n", id, tipoMoeda)
+		return id
 	default:
-		panic(reqRow)
+		return 0
 	}
-
-	return id
 }
 
 func DeletarMoeda(cripto model.Cripto) int {
+
 	db := StartDB()
 
 	sqlStatement := `DELETE FROM minhascriptosprincipal.criptomoeda 
@@ -75,20 +75,19 @@ func DeletarMoeda(cripto model.Cripto) int {
 	switch reqRow {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada!")
+		return 0
 	case nil:
-		fmt.Println("ID para DELETAR:", cripto.ID, " | ID deletado:", id)
 		return id
 	default:
-		panic(reqRow)
+		return 0
 	}
-
-	return id
 }
 
 func ObterMoedas(usuario_id int) []model.Cripto {
+
 	db := StartDB()
 
-	sqlStatement := `SELECT id, "tipoMoeda", "dataDeCompra", "quantidadeComprada", "precoDeCompra", 
+	sqlStatement := `SELECT id, "tipoMoeda", to_char("dataDeCompra", 'YYYY-MM-DD'), "quantidadeComprada", "precoDeCompra", 
 	"valorDaUnidadeNoDiaDeCompra", usuario_id
 	FROM minhascriptosprincipal.criptomoeda
 	WHERE usuario_id=$1;`
@@ -96,10 +95,18 @@ func ObterMoedas(usuario_id int) []model.Cripto {
 	rows, err := db.Query(sqlStatement, usuario_id)
 
 	if err != nil {
-		fmt.Println("Obter Moedas | Erro ao realizar Query:", err)
-		panic(err)
+
+		if err == sql.ErrNoRows {
+			fmt.Println("Row não encontrada!")
+			return []model.Cripto{}
+
+		} else {
+			fmt.Println("Obter Moedas | Erro ao realizar Query:", err)
+			return []model.Cripto{}
+		}
 	}
-	defer db.Close()
+
+	// defer db.Close() TESTAR
 
 	var cripto model.Cripto
 	var criptos []model.Cripto
@@ -110,38 +117,59 @@ func ObterMoedas(usuario_id int) []model.Cripto {
 
 		if err != nil {
 			fmt.Println("Obter moedas | Erro ao realizar Scan:", err)
-			panic(err)
+			return []model.Cripto{}
 		}
 
-		fmt.Println(cripto)
 		criptos = append(criptos, cripto)
 	}
 
-	fmt.Println(criptos)
-
 	err = rows.Err()
+
 	if err != nil {
-		panic(err)
+		return []model.Cripto{}
 	}
 
 	return criptos
 }
 
 func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompra string) []model.Cripto {
+
+	if tipoMoeda != "" && dataDeCompra != "" {
+		moedas := obterMoedaPorTipoMoedaEDataDeCompra(usuario_id, tipoMoeda, dataDeCompra)
+		return moedas
+	} else if tipoMoeda != "" {
+		moedas := obterMoedaPorTipoMoeda(usuario_id, tipoMoeda)
+		return moedas
+	} else {
+		moedas := obterMoedaPorDataDeCompra(usuario_id, dataDeCompra)
+		return moedas
+	}
+
+}
+
+func obterMoedaPorTipoMoedaEDataDeCompra(usuario_id int, tipoMoeda string, dataDeCompra string) []model.Cripto {
+
 	db := StartDB()
 
-	sqlStatement := `SELECT id, "tipoMoeda", "dataDeCompra", "quantidadeComprada", "precoDeCompra", 
+	sqlStatement := `SELECT id, "tipoMoeda", to_char("dataDeCompra", 'YYYY-MM-DD'), "quantidadeComprada", "precoDeCompra", 
 	"valorDaUnidadeNoDiaDeCompra", usuario_id
 	FROM minhascriptosprincipal.criptomoeda
-	WHERE usuario_id=$1 AND ("tipoMoeda"=$2 OR "dataDeCompra"=$3);`
+	WHERE usuario_id=$1 AND "tipoMoeda"=$2 AND "dataDeCompra"=$3;`
 
 	rows, err := db.Query(sqlStatement, usuario_id, tipoMoeda, dataDeCompra)
 
 	if err != nil {
-		fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Query:", err)
-		panic(err)
+
+		if err == sql.ErrNoRows {
+			fmt.Println("Row não encontrada!")
+			return []model.Cripto{}
+		} else {
+			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Query:", err)
+			return []model.Cripto{}
+		}
 	}
-	defer db.Close()
+
+	//defer db.Close()
 
 	var cripto model.Cripto
 	var criptos []model.Cripto
@@ -152,7 +180,55 @@ func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompr
 
 		if err != nil {
 			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Scan:", err)
-			panic(err)
+			return []model.Cripto{}
+		}
+
+		criptos = append(criptos, cripto)
+	}
+
+	err = rows.Err()
+
+	if err != nil {
+		return []model.Cripto{}
+	}
+
+	return criptos
+}
+
+func obterMoedaPorTipoMoeda(usuario_id int, tipoMoeda string) []model.Cripto {
+
+	db := StartDB()
+
+	sqlStatement := `SELECT id, "tipoMoeda", to_char("dataDeCompra", 'YYYY-MM-DD'), "quantidadeComprada", "precoDeCompra", 
+	"valorDaUnidadeNoDiaDeCompra", usuario_id
+	FROM minhascriptosprincipal.criptomoeda
+	WHERE usuario_id=$1 AND "tipoMoeda"=$2;`
+
+	rows, err := db.Query(sqlStatement, usuario_id, tipoMoeda)
+
+	if err != nil {
+
+		if err == sql.ErrNoRows {
+			fmt.Println("Row não encontrada!")
+			return []model.Cripto{}
+		} else {
+			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Query:", err)
+			return []model.Cripto{}
+		}
+	}
+
+	//defer db.Close()
+
+	var cripto model.Cripto
+	var criptos []model.Cripto
+
+	for rows.Next() {
+		err = rows.Scan(&cripto.ID, &cripto.TipoMoeda, &cripto.DataDeCompra, &cripto.QuantidadeComprada,
+			&cripto.PrecoDeCompra, &cripto.ValorDaUnidadeNoDiaDeCompra, &cripto.UsuarioId.ID)
+
+		if err != nil {
+			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Scan:", err)
+			return []model.Cripto{}
 		}
 
 		fmt.Println(cripto)
@@ -160,9 +236,80 @@ func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompr
 	}
 
 	err = rows.Err()
+
 	if err != nil {
-		panic(err)
+		return []model.Cripto{}
 	}
 
 	return criptos
+}
+
+func obterMoedaPorDataDeCompra(usuario_id int, dataDeCompra string) []model.Cripto {
+
+	db := StartDB()
+
+	sqlStatement := `SELECT id, "tipoMoeda", to_char("dataDeCompra", 'YYYY-MM-DD'), "quantidadeComprada", "precoDeCompra", 
+	"valorDaUnidadeNoDiaDeCompra", usuario_id
+	FROM minhascriptosprincipal.criptomoeda
+	WHERE usuario_id=$1 AND "dataDeCompra"=$2;`
+
+	rows, err := db.Query(sqlStatement, usuario_id, dataDeCompra)
+
+	if err != nil {
+
+		if err == sql.ErrNoRows {
+			fmt.Println("Row não encontrada!")
+			return []model.Cripto{}
+		} else {
+			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Query:", err)
+			return []model.Cripto{}
+		}
+	}
+
+	//defer db.Close()
+
+	var cripto model.Cripto
+	var criptos []model.Cripto
+
+	for rows.Next() {
+		err = rows.Scan(&cripto.ID, &cripto.TipoMoeda, &cripto.DataDeCompra, &cripto.QuantidadeComprada,
+			&cripto.PrecoDeCompra, &cripto.ValorDaUnidadeNoDiaDeCompra, &cripto.UsuarioId.ID)
+
+		if err != nil {
+			fmt.Println("Obter Moedas Busca Personalizada | Erro ao realizar Scan:", err)
+			return []model.Cripto{}
+		}
+
+		fmt.Println(cripto)
+		criptos = append(criptos, cripto)
+	}
+
+	err = rows.Err()
+
+	if err != nil {
+		return []model.Cripto{}
+	}
+
+	return criptos
+}
+
+func ObterMoedaPeloID(cripto model.Cripto) int {
+
+	db := StartDB()
+
+	sqlStatement := `SELECT id FROM minhascriptosprincipal.criptomoeda WHERE id=$1 AND usuario_id=$2`
+
+	var id int
+
+	err := db.QueryRow(sqlStatement, cripto.ID, cripto.UsuarioId.ID).Scan(&id)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("Row não encontrada!")
+		return 0
+	case nil:
+		return id
+	default:
+		return 0
+	}
 }

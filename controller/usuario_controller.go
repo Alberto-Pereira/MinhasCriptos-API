@@ -8,7 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CadastrarUsuario godoc
+// @Summary Cadastra um usuário
+// @Description Recebe um usuário e cadastra no sistema
+// @Tags cadastrar-usuario
+// @Accept json
+// @Produce json
+// @Success 200 {boolean} true
+// @Failure 400 {object} error
+// @Router /cadastrar-usuario [post]
 func CadastrarUsuario(ctx *gin.Context) {
+
 	var usuario model.Usuario
 
 	err := ctx.BindJSON(&usuario)
@@ -18,17 +28,17 @@ func CadastrarUsuario(ctx *gin.Context) {
 		return
 	}
 
-	u := service.CadastrarUsuario(usuario, usuario.Email)
+	isUsuarioCadastrado, status := service.CadastrarUsuario(usuario)
 
-	if u == true {
-		ctx.JSON(http.StatusAccepted, u)
+	if isUsuarioCadastrado == false {
+		ctx.JSON(status.ID, status.Mensagem)
 	} else {
-		ctx.JSON(http.StatusConflict, u)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
-
 }
 
 func ObterUsuario(ctx *gin.Context) {
+
 	var usuario model.Usuario
 
 	err := ctx.BindJSON(&usuario)
@@ -38,17 +48,17 @@ func ObterUsuario(ctx *gin.Context) {
 		return
 	}
 
-	u, isUsuarioValido := service.ObterUsuario(usuario.Email, usuario.Senha)
+	u, isUsuarioValido, status := service.ObterUsuario(usuario.Email, usuario.Senha)
 
 	if isUsuarioValido == false {
-		ctx.JSON(http.StatusNotFound, u)
+		ctx.JSON(status.ID, status.Mensagem)
 	} else {
-		ctx.JSON(http.StatusAccepted, u)
+		ctx.JSON(status.ID, u)
 	}
-
 }
 
 func ObterDinheiroInserido(ctx *gin.Context) {
+
 	var usuario model.Usuario
 
 	err := ctx.BindJSON(&usuario)
@@ -58,7 +68,11 @@ func ObterDinheiroInserido(ctx *gin.Context) {
 		return
 	}
 
-	dinheiroInserido := service.ObterDinheiroInserido(usuario.ID)
+	dinheiroInserido, isDinheiroInseridoValido, status := service.ObterDinheiroInserido(usuario.ID)
 
-	ctx.JSON(http.StatusFound, dinheiroInserido)
+	if isDinheiroInseridoValido == false {
+		ctx.JSON(status.ID, status.Mensagem)
+	} else {
+		ctx.JSON(status.ID, dinheiroInserido)
+	}
 }

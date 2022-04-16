@@ -9,6 +9,7 @@ import (
 )
 
 func AdicionarMoeda(ctx *gin.Context) {
+
 	var cripto model.Cripto
 
 	err := ctx.BindJSON(&cripto)
@@ -18,16 +19,17 @@ func AdicionarMoeda(ctx *gin.Context) {
 		return
 	}
 
-	isMoedaAdicionada := service.AdicionarMoeda(cripto)
+	isMoedaAdicionada, status := service.AdicionarMoeda(cripto)
 
 	if isMoedaAdicionada == true {
-		ctx.JSON(http.StatusCreated, isMoedaAdicionada)
+		ctx.JSON(status.ID, status.Mensagem)
 	} else {
-		ctx.JSON(http.StatusBadRequest, isMoedaAdicionada)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
 }
 
 func EditarMoeda(ctx *gin.Context) {
+
 	var cripto model.Cripto
 
 	err := ctx.BindJSON(&cripto)
@@ -37,16 +39,17 @@ func EditarMoeda(ctx *gin.Context) {
 		return
 	}
 
-	isMoedaEditada := service.EditarMoeda(cripto)
+	isMoedaEditada, status := service.EditarMoeda(cripto)
 
 	if isMoedaEditada == true {
-		ctx.JSON(http.StatusAccepted, isMoedaEditada)
+		ctx.JSON(status.ID, status.Mensagem)
 	} else {
-		ctx.JSON(http.StatusNotAcceptable, isMoedaEditada)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
 }
 
 func DeletarMoeda(ctx *gin.Context) {
+
 	var cripto model.Cripto
 
 	err := ctx.BindJSON(&cripto)
@@ -56,16 +59,17 @@ func DeletarMoeda(ctx *gin.Context) {
 		return
 	}
 
-	isMoedaDeletada := service.DeletarMoeda(cripto)
+	isMoedaDeletada, status := service.DeletarMoeda(cripto)
 
 	if isMoedaDeletada == true {
-		ctx.JSON(http.StatusAccepted, isMoedaDeletada)
+		ctx.JSON(status.ID, status.Mensagem)
 	} else {
-		ctx.JSON(http.StatusNotAcceptable, isMoedaDeletada)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
 }
 
 func ObterMoedas(ctx *gin.Context) {
+
 	var usuario model.Usuario
 
 	err := ctx.BindJSON(&usuario)
@@ -75,16 +79,17 @@ func ObterMoedas(ctx *gin.Context) {
 		return
 	}
 
-	criptos := service.ObterMoedas(usuario.ID)
+	criptos, isMoedasObtidas, status := service.ObterMoedas(usuario.ID)
 
-	if criptos != nil {
-		ctx.JSON(http.StatusFound, criptos)
+	if isMoedasObtidas == true {
+		ctx.JSON(status.ID, criptos)
 	} else {
-		ctx.JSON(http.StatusNotFound, false)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
 }
 
 func ObterMoedasBuscaPersonalizada(ctx *gin.Context) {
+
 	var cripto model.Cripto
 
 	err := ctx.BindJSON(&cripto)
@@ -94,11 +99,11 @@ func ObterMoedasBuscaPersonalizada(ctx *gin.Context) {
 		return
 	}
 
-	criptos := service.ObterMoedasBuscaPersonalizada(cripto.UsuarioId.ID, cripto.TipoMoeda, cripto.DataDeCompra)
+	criptos, isMoedasObtidas, status := service.ObterMoedasBuscaPersonalizada(cripto.UsuarioId.ID, cripto.TipoMoeda, cripto.DataDeCompra)
 
-	if criptos != nil {
-		ctx.JSON(http.StatusFound, criptos)
+	if isMoedasObtidas == true {
+		ctx.JSON(status.ID, criptos)
 	} else {
-		ctx.JSON(http.StatusNotFound, false)
+		ctx.JSON(status.ID, status.Mensagem)
 	}
 }

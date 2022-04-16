@@ -12,70 +12,67 @@ func AutenticarUsuario(email string) model.Usuario {
 
 	db := StartDB()
 
-	sqlStatement := `SELECT * FROM minhascriptosprincipal.usuario WHERE email=$1;`
+	sqlStatement := `SELECT email FROM minhascriptosprincipal.usuario WHERE email=$1;`
 
 	var usuario model.Usuario
 
-	reqRow := db.QueryRow(sqlStatement, email).Scan(&usuario.ID, &usuario.Nome, &usuario.Email, &usuario.Senha)
+	err := db.QueryRow(sqlStatement, email).Scan(&usuario.Email)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada!")
+		return model.Usuario{}
 	case nil:
-		fmt.Println(usuario)
+		return usuario
 	default:
-		panic(reqRow)
+		return model.Usuario{}
 	}
-
-	return usuario
 }
 
-func CadastrarUsuario(usuario model.Usuario) (id int) {
+func CadastrarUsuario(usuario model.Usuario) int {
+
 	db := StartDB()
 
 	sqlStatement := `INSERT INTO minhascriptosprincipal.usuario(nome, email, senha) VALUES ($1, $2, $3) RETURNING id;`
 
-	id = 0
+	var id int
 
-	reqRow := db.QueryRow(sqlStatement, usuario.Nome, usuario.Email, usuario.Senha).Scan(&id)
+	err := db.QueryRow(sqlStatement, usuario.Nome, usuario.Email, usuario.Senha).Scan(&id)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada!")
+		return 0
 	case nil:
-		fmt.Println(id)
+		return id
 	default:
-		panic(reqRow)
+		return 0
 	}
-
-	return id
 }
 
 func ObterUsuario(email string, senha string) model.Usuario {
 
 	db := StartDB()
 
-	sqlStatement := `SELECT * FROM minhascriptosprincipal.usuario 
-					WHERE email=$1 AND senha=$2;`
+	sqlStatement := `SELECT * FROM minhascriptosprincipal.usuario WHERE email=$1 AND senha=$2;`
 
 	var usuario model.Usuario
 
-	reqRow := db.QueryRow(sqlStatement, email, senha).Scan(&usuario.ID, &usuario.Nome, &usuario.Email, &usuario.Senha)
+	err := db.QueryRow(sqlStatement, email, senha).Scan(&usuario.ID, &usuario.Nome, &usuario.Email, &usuario.Senha)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada!")
+		return model.Usuario{}
 	case nil:
-		fmt.Println(usuario)
 		return usuario
 	default:
-		panic(reqRow)
+		return model.Usuario{}
 	}
-
-	return usuario
 }
 
-func ObterDinheiroInserido(usuario_id int) model.DinheiroInseridoSlice {
+func ObterDinheiroInserido(usuario_id int) []model.DinheiroInserido {
+
 	db := StartDB()
 
 	sqlStatement := `SELECT "tipoMoeda", sum("precoDeCompra")
@@ -84,34 +81,63 @@ func ObterDinheiroInserido(usuario_id int) model.DinheiroInseridoSlice {
 	GROUP BY "tipoMoeda"`
 
 	var di model.DinheiroInserido
-	var dis model.DinheiroInseridoSlice
+	var dis []model.DinheiroInserido
 
 	rows, err := db.Query(sqlStatement, usuario_id)
 
 	if err != nil {
-		fmt.Println("Erro ao obter dinheiro inserido | Erro:", err)
-		panic(err)
+
+		if err == sql.ErrNoRows {
+			fmt.Println("Row não encontrada!")
+			return []model.DinheiroInserido{}
+
+		} else {
+			fmt.Println("Erro ao obter dinheiro inserido | Erro:", err)
+			return []model.DinheiroInserido{}
+		}
+
 	}
-	defer rows.Close()
+
+	// defer rows.Close() // Testar depois
 
 	for rows.Next() {
+
 		err = rows.Scan(&di.TipoMoeda, &di.Total)
 
 		if err != nil {
 			fmt.Println("Erro ao obter dinheiro inserido | Erro ao fazer Scan da row", err)
-			panic(err)
+			return []model.DinheiroInserido{}
 		}
 
-		fmt.Println(di.TipoMoeda, di.Total)
 		dis = append(dis, di)
 	}
 
-	fmt.Println(dis)
-
 	err = rows.Err()
+
 	if err != nil {
-		panic(err)
+		return []model.DinheiroInserido{}
 	}
 
 	return dis
+}
+
+func ObterUsuarioPeloID(usuario_id int) int {
+
+	db := StartDB()
+
+	sqlStatement := `SELECT id FROM minhascriptosprincipal.usuario WHERE id=$1`
+
+	var id int
+
+	err := db.QueryRow(sqlStatement, usuario_id).Scan(&id)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("Row não encontrada!")
+		return 0
+	case nil:
+		return id
+	default:
+		return 0
+	}
 }
