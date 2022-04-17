@@ -39,13 +39,9 @@ func CadastrarUsuario(usuario model.Usuario) int {
 
 	err := db.QueryRow(sqlStatement, usuario.Nome, usuario.Email, usuario.Senha).Scan(&id)
 
-	switch err {
-	case sql.ErrNoRows:
-		fmt.Println("Row não encontrada!")
-		return 0
-	case nil:
+	if err == nil {
 		return id
-	default:
+	} else {
 		return 0
 	}
 }
