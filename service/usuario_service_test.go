@@ -15,7 +15,7 @@ func TestCadastrarUsuario_UsuarioValido(t *testing.T) {
 	assertions := require.New(t)
 
 	// ! Email deve ser trocado a cada teste. Não pode ser um email já cadastrado!
-	usuarioValido := model.Usuario{Nome: "Teste", Email: "email10@gmail.com", Senha: "123456"}
+	usuarioValido := model.Usuario{Nome: "Teste", Email: "email11@gmail.com", Senha: "123456"}
 
 	resultado, status := CadastrarUsuario(usuarioValido)
 
@@ -69,7 +69,7 @@ func TestObterUsuario_UsuarioCadastrado(t *testing.T) {
 
 	usuario, resultado, status := ObterUsuario(usuarioCadastrado.Email, usuarioCadastrado.Senha)
 
-	assertions.NotNil(usuario)
+	assertions.NotEmpty(usuario)
 	assertions.Equal(resultado, true)
 	assertions.Equal(status, util.HttpStatus{ID: 200})
 }
@@ -89,7 +89,7 @@ func TestObterUsuario_EmailESenhaInvalida(t *testing.T) {
 
 		u, resultado, status := ObterUsuario(u.Email, u.Senha)
 
-		assertions.NotNil(u)
+		assertions.Empty(u)
 		assertions.Equal(resultado, false)
 		assertions.Equal(status, util.HttpStatus{ID: 400,
 			Mensagem: "Email ou senha não seguem os padrões requisitados!"})
@@ -98,7 +98,76 @@ func TestObterUsuario_EmailESenhaInvalida(t *testing.T) {
 }
 
 // Obter Usuário
-// Senha inválida - Senha inválida para usuário requisitado
+// Senha inválida - Email cadastrado mas senha inválida para usuário requisitado
 func TestObterUsuario_SenhaInvalida(t *testing.T) {
 
+	assertions := require.New(t)
+
+	usuarioCadastrado := model.Usuario{Email: "email1@gmail.com", Senha: "12345"}
+
+	usuario, resultado, status := ObterUsuario(usuarioCadastrado.Email, usuarioCadastrado.Senha)
+
+	assertions.Empty(usuario)
+	assertions.Equal(resultado, false)
+	assertions.Equal(status, util.HttpStatus{ID: 406, Mensagem: "Senha inválida para o email informado!"})
+}
+
+// Obter Usuário
+// Email não cadastrado - Email não cadastrado
+func TestObterUsuario_EmailNaoCadastrado(t *testing.T) {
+
+	assertions := require.New(t)
+
+	usuarioNaoCadastrado := model.Usuario{Email: "emailnaocadastrado@gmail.com", Senha: "123456"}
+
+	usuario, resultado, status := ObterUsuario(usuarioNaoCadastrado.Email, usuarioNaoCadastrado.Senha)
+
+	assertions.Empty(usuario)
+	assertions.Equal(resultado, false)
+	assertions.Equal(status, util.HttpStatus{ID: 404, Mensagem: "Usuário não encontrado para o email informado!"})
+}
+
+// Obter dinheiro inserido
+// Usuario válido - Retorna um slice com tipo e total para cada moeda
+func TestObterDinheiroInserido_UsuarioValido(t *testing.T) {
+
+	assertions := require.New(t)
+
+	usuarioValido := model.Usuario{ID: 1}
+
+	usuario, resultado, status := ObterDinheiroInserido(usuarioValido.ID)
+
+	assertions.NotEmpty(usuario)
+	assertions.Equal(resultado, true)
+	assertions.Equal(status, util.HttpStatus{ID: 200})
+}
+
+// Obter dinheiro inserido
+// Usuario inválido - Usuário não cadastrado
+func TestObterDinheiroInserido_UsuarioInvalido(t *testing.T) {
+
+	assertions := require.New(t)
+
+	usuarioInvalido := model.Usuario{ID: 999}
+
+	usuario, resultado, status := ObterDinheiroInserido(usuarioInvalido.ID)
+
+	assertions.Empty(usuario)
+	assertions.Equal(resultado, false)
+	assertions.Equal(status, util.HttpStatus{ID: 400, Mensagem: "ID inválido!"})
+}
+
+// Obter dinheiro inserido
+// Usuario válido sem dinheiro inserido - Usuário é válido mas não possui dinheiro inserido
+func TestObterDinheiroInserido_UsuarioValidoSemDinheiroInserido(t *testing.T) {
+
+	assertions := require.New(t)
+
+	usuarioInvalido := model.Usuario{ID: 11}
+
+	usuario, resultado, status := ObterDinheiroInserido(usuarioInvalido.ID)
+
+	assertions.Empty(usuario)
+	assertions.Equal(resultado, false)
+	assertions.Equal(status, util.HttpStatus{ID: 404, Mensagem: "Dinheiro inserido não encontrado para o ID informado!"})
 }
