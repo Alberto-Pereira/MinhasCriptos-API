@@ -15,7 +15,7 @@ func TestCadastrarUsuario_UsuarioValido(t *testing.T) {
 	assertions := require.New(t)
 
 	// ! Email deve ser trocado a cada teste. Não pode ser um email já cadastrado!
-	usuarioValido := model.Usuario{Nome: "Teste", Email: "email11@gmail.com", Senha: "123456"}
+	usuarioValido := model.Usuario{Nome: "Teste", Email: "email12@gmail.com", Senha: "123456"}
 
 	resultado, status := CadastrarUsuario(usuarioValido)
 
@@ -163,7 +163,7 @@ func TestObterDinheiroInserido_UsuarioValidoSemDinheiroInserido(t *testing.T) {
 
 	assertions := require.New(t)
 
-	usuarioInvalido := model.Usuario{ID: 11}
+	usuarioInvalido := model.Usuario{ID: 12}
 
 	usuario, resultado, status := ObterDinheiroInserido(usuarioInvalido.ID)
 
