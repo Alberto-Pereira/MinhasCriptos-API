@@ -40,14 +40,13 @@ func EditarMoeda(cripto model.Cripto) int {
 	SET "tipoMoeda"=$2, "dataDeCompra"=$3, "quantidadeComprada"=$4, "precoDeCompra"=$5, 
 	"valorDaUnidadeNoDiaDeCompra"=$6
 	WHERE id=$1 AND usuario_id=$7
-	RETURNING id, "tipoMoeda";`
+	RETURNING id;`
 
 	var id int
-	var tipoMoeda string
 
 	reqRow := db.QueryRow(sqlStatement, cripto.ID, cripto.TipoMoeda, cripto.DataDeCompra,
 		cripto.QuantidadeComprada, cripto.PrecoDeCompra, cripto.ValorDaUnidadeNoDiaDeCompra, cripto.UsuarioId.ID).
-		Scan(&id, &tipoMoeda)
+		Scan(&id)
 
 	switch reqRow {
 	case sql.ErrNoRows:
