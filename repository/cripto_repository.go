@@ -183,7 +183,6 @@ func obterMoedaPorTipoMoedaEDataDeCompra(usuario_id int, tipoMoeda string, dataD
 			return []model.Cripto{}
 		}
 
-		fmt.Println(cripto)
 		criptos = append(criptos, cripto)
 	}
 
@@ -232,7 +231,6 @@ func obterMoedaPorTipoMoeda(usuario_id int, tipoMoeda string) []model.Cripto {
 			return []model.Cripto{}
 		}
 
-		fmt.Println(cripto)
 		criptos = append(criptos, cripto)
 	}
 
@@ -281,7 +279,6 @@ func obterMoedaPorDataDeCompra(usuario_id int, dataDeCompra string) []model.Crip
 			return []model.Cripto{}
 		}
 
-		fmt.Println(cripto)
 		criptos = append(criptos, cripto)
 	}
 
