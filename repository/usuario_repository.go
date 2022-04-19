@@ -94,8 +94,6 @@ func ObterDinheiroInserido(usuario_id int) []model.DinheiroInserido {
 
 	}
 
-	// defer rows.Close() // Testar depois
-
 	for rows.Next() {
 
 		err = rows.Scan(&di.TipoMoeda, &di.Total)

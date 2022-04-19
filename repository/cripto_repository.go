@@ -18,10 +18,10 @@ func AdicionarMoeda(cripto model.Cripto) int {
 
 	var id int
 
-	reqRow := db.QueryRow(sqlStatement, cripto.TipoMoeda, cripto.DataDeCompra, cripto.QuantidadeComprada,
+	err := db.QueryRow(sqlStatement, cripto.TipoMoeda, cripto.DataDeCompra, cripto.QuantidadeComprada,
 		cripto.PrecoDeCompra, cripto.ValorDaUnidadeNoDiaDeCompra, cripto.UsuarioId.ID).Scan(&id)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada")
 		return 0
@@ -44,11 +44,11 @@ func EditarMoeda(cripto model.Cripto) int {
 
 	var id int
 
-	reqRow := db.QueryRow(sqlStatement, cripto.ID, cripto.TipoMoeda, cripto.DataDeCompra,
+	err := db.QueryRow(sqlStatement, cripto.ID, cripto.TipoMoeda, cripto.DataDeCompra,
 		cripto.QuantidadeComprada, cripto.PrecoDeCompra, cripto.ValorDaUnidadeNoDiaDeCompra, cripto.UsuarioId.ID).
 		Scan(&id)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada")
 		return 0
@@ -69,9 +69,9 @@ func DeletarMoeda(cripto model.Cripto) int {
 
 	var id int
 
-	reqRow := db.QueryRow(sqlStatement, cripto.ID, cripto.UsuarioId.ID).Scan(&id)
+	err := db.QueryRow(sqlStatement, cripto.ID, cripto.UsuarioId.ID).Scan(&id)
 
-	switch reqRow {
+	switch err {
 	case sql.ErrNoRows:
 		fmt.Println("Row não encontrada!")
 		return 0
@@ -104,8 +104,6 @@ func ObterMoedas(usuario_id int) []model.Cripto {
 			return []model.Cripto{}
 		}
 	}
-
-	// defer db.Close() TESTAR
 
 	var cripto model.Cripto
 	var criptos []model.Cripto
@@ -168,8 +166,6 @@ func obterMoedaPorTipoMoedaEDataDeCompra(usuario_id int, tipoMoeda string, dataD
 		}
 	}
 
-	//defer db.Close()
-
 	var cripto model.Cripto
 	var criptos []model.Cripto
 
@@ -216,8 +212,6 @@ func obterMoedaPorTipoMoeda(usuario_id int, tipoMoeda string) []model.Cripto {
 		}
 	}
 
-	//defer db.Close()
-
 	var cripto model.Cripto
 	var criptos []model.Cripto
 
@@ -263,8 +257,6 @@ func obterMoedaPorDataDeCompra(usuario_id int, dataDeCompra string) []model.Crip
 			return []model.Cripto{}
 		}
 	}
-
-	//defer db.Close()
 
 	var cripto model.Cripto
 	var criptos []model.Cripto
