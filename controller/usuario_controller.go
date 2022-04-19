@@ -3,7 +3,6 @@ package controller
 import (
 	"minhascriptos/model"
 	"minhascriptos/service"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +23,7 @@ func CadastrarUsuario(ctx *gin.Context) {
 	err := ctx.BindJSON(&usuario)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -44,7 +43,7 @@ func ObterUsuario(ctx *gin.Context) {
 	err := ctx.BindJSON(&usuario)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -64,7 +63,7 @@ func ObterDinheiroInserido(ctx *gin.Context) {
 	err := ctx.BindJSON(&usuario)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 

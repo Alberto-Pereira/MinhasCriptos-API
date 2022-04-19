@@ -3,7 +3,6 @@ package controller
 import (
 	"minhascriptos/model"
 	"minhascriptos/service"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +14,7 @@ func AdicionarMoeda(ctx *gin.Context) {
 	err := ctx.BindJSON(&cripto)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -35,7 +34,7 @@ func EditarMoeda(ctx *gin.Context) {
 	err := ctx.BindJSON(&cripto)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -55,7 +54,7 @@ func DeletarMoeda(ctx *gin.Context) {
 	err := ctx.BindJSON(&cripto)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -75,7 +74,7 @@ func ObterMoedas(ctx *gin.Context) {
 	err := ctx.BindJSON(&usuario)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 
@@ -95,7 +94,7 @@ func ObterMoedasBuscaPersonalizada(ctx *gin.Context) {
 	err := ctx.BindJSON(&cripto)
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(400, "Estrutura incorreta!")
 		return
 	}
 

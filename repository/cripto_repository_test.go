@@ -77,7 +77,7 @@ func TestDeletarMoeda_MoedaValida(t *testing.T) {
 	assertions := require.New(t)
 
 	// ! Informar o id e usuário de uma moeda válida a cada teste
-	moedaValida := model.Cripto{ID: 30, UsuarioId: model.Usuario{ID: 11}}
+	moedaValida := model.Cripto{ID: 31, UsuarioId: model.Usuario{ID: 11}}
 
 	id := DeletarMoeda(moedaValida)
 

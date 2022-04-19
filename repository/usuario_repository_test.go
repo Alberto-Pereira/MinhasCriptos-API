@@ -40,7 +40,7 @@ func TestCadastrarUsuario_UsuarioValido(t *testing.T) {
 	assertions := require.New(t)
 
 	// ! Email deve ser trocado a cada teste. Não pode ser um email já cadastrado!
-	usuarioValido := model.Usuario{Nome: "Teste Repository", Email: "email17@gmail.com", Senha: "123456"}
+	usuarioValido := model.Usuario{Nome: "Teste Repository", Email: "email18@gmail.com", Senha: "123456"}
 
 	usuario := AutenticarUsuario(usuarioValido.Email)
 
