@@ -1,3 +1,5 @@
+// Package repository contém as operações de repositório das entidades usuário e cripto
+// Contém também a configuração do banco de dados
 package repository
 
 import (
@@ -6,6 +8,10 @@ import (
 	"minhascriptos/model"
 )
 
+// Adicionar Moeda
+// A entidade cripto é a moeda a ser enviada para o banco de dados para ser adicionada
+// Se ela for adicionada, é retornado o id correspondente
+// Se ela não for adicionada, é retornado 0
 func AdicionarMoeda(cripto model.Cripto) int {
 
 	db := StartDB()
@@ -32,6 +38,10 @@ func AdicionarMoeda(cripto model.Cripto) int {
 	}
 }
 
+// Editar Moeda
+// A entidade cripto é a moeda a ser enviada para o banco de dados para ser atualizada
+// Se ela for atualizada, é retornado o id correspondente
+// Se ela não for atualizada, é retornado 0
 func EditarMoeda(cripto model.Cripto) int {
 
 	db := StartDB()
@@ -59,6 +69,10 @@ func EditarMoeda(cripto model.Cripto) int {
 	}
 }
 
+// Deletar Moeda
+// A entidade cripto é a moeda a ser enviada para o banco de dados para ser deletada
+// Se ela for deletada, é retornado o id correspondente
+// Se ela não for deletada, é retornado 0
 func DeletarMoeda(cripto model.Cripto) int {
 
 	db := StartDB()
@@ -82,6 +96,10 @@ func DeletarMoeda(cripto model.Cripto) int {
 	}
 }
 
+// Obter Moedas
+// É fornecido o id de um usuário, a ser enviado para o banco de dados, para obter as moedas correspondentes
+// Se o usuário existir e tiver moedas registradas, é retornado as moedas correspondentes
+// Se o usuário existir e não tiver moedas registradas, é retornado nil
 func ObterMoedas(usuario_id int) []model.Cripto {
 
 	db := StartDB()
@@ -129,6 +147,11 @@ func ObterMoedas(usuario_id int) []model.Cripto {
 	return criptos
 }
 
+// Obter Moedas Busca Personalizada
+// É fornecido o id de um usuário com parâmetros personalizados, a serem enviados para o banco de dados,
+// para obter as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas corresponderem aos parâmetros, é retornado as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas não corresponderem aos parâmetros, é retornado nil
 func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompra string) []model.Cripto {
 
 	if tipoMoeda != "" && dataDeCompra != "" {
@@ -144,6 +167,11 @@ func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompr
 
 }
 
+// Obter Moeda Por Tipo Moeda E Data De Compra
+// É fornecido o id de um usuário com os parâmetro de tipo de moeda e data de compra, que serão enviados para o banco de dados,
+// para obter as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas corresponderem aos parâmetros, é retornado as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas não corresponderem aos parâmetros, é retornado nil
 func obterMoedaPorTipoMoedaEDataDeCompra(usuario_id int, tipoMoeda string, dataDeCompra string) []model.Cripto {
 
 	db := StartDB()
@@ -190,6 +218,11 @@ func obterMoedaPorTipoMoedaEDataDeCompra(usuario_id int, tipoMoeda string, dataD
 	return criptos
 }
 
+// Obter Moeda Por Tipo Moeda
+// É fornecido o id de um usuário e o parâmetro de tipo de moeda, que serão enviados para o banco de dados,
+// para obter as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas corresponderem ao parâmetro, é retornado as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas não corresponderem ao parâmetro, é retornado nil
 func obterMoedaPorTipoMoeda(usuario_id int, tipoMoeda string) []model.Cripto {
 
 	db := StartDB()
@@ -236,6 +269,11 @@ func obterMoedaPorTipoMoeda(usuario_id int, tipoMoeda string) []model.Cripto {
 	return criptos
 }
 
+// Obter Moeda Por  Data De Compra
+// É fornecido o id de um usuário e o parâmetro de data de compra, que serão enviados para o banco de dados,
+// para obter as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas corresponderem ao parâmetro, é retornado as moedas correspondentes
+// Se o usuário existir, tiver moedas registradas e elas não corresponderem ao parâmetro, é retornado nil
 func obterMoedaPorDataDeCompra(usuario_id int, dataDeCompra string) []model.Cripto {
 
 	db := StartDB()
@@ -282,6 +320,11 @@ func obterMoedaPorDataDeCompra(usuario_id int, dataDeCompra string) []model.Crip
 	return criptos
 }
 
+// Obter Moeda Pelo ID
+// É fornecido o id de um usuário e o id de uma moeda, utilizando uma entidade cripto, que serão enviados
+// para o banco de dados, para obter a moeda correspondente
+// Se o usuário existir e tiver a moeda registrada, é retornado a moeda correspondente
+// Se o usuário existir e não tiver a moeda registrada, é retornado nil
 func ObterMoedaPeloID(cripto model.Cripto) int {
 
 	db := StartDB()

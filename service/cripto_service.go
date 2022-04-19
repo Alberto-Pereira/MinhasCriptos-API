@@ -1,3 +1,4 @@
+// Package service contém as regras de serviço das entidades usuário e cripto
 package service
 
 import (
@@ -7,6 +8,10 @@ import (
 	"regexp"
 )
 
+// Adicionar Moeda
+// A entidade cripto, com usuário associado, após ser validada, é enviada para o repositório para ser adicionada
+// Se ela for adicionada, é retornado true e o status associado
+// Se ela não for adicionada, é retornado false e o status associado
 func AdicionarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 
 	if isMoedaValida(cripto) == false {
@@ -26,6 +31,10 @@ func AdicionarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 	}
 }
 
+// Editar Moeda
+// A entidade cripto, com id e usuário associado, após ser validada, é enviada para o repositório para ser atualizada
+// Se ela for atualizada, é retornado true e o status associado
+// Se ela não for atualizada, é retornado false e o status associado
 func EditarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 
 	if isMoedaValida(cripto) == false {
@@ -45,6 +54,10 @@ func EditarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 	}
 }
 
+// Deletar Moeda
+// A entidade cripto, com id e usuário associado, após ser validada, é enviada para o repositório para ser deletada
+// Se ela for deletada, é retornado true e o status associado
+// Se ela não for deletada, é retornado false e o status associado
 func DeletarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 
 	if isMoedaEUsuarioIDValido(cripto) == false {
@@ -60,6 +73,10 @@ func DeletarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 	}
 }
 
+// Obter Moedas
+// A entidade usuario, após ser validada, é enviada para o repositório para obter suas moedas
+// Se elas forem obtidas, é retornado as moedas associadas, true e o status associado
+// Se elas não forem obtidas, é retornado nil, false e o status associado
 func ObterMoedas(usuario_id int) ([]model.Cripto, bool, util.HttpStatus) {
 
 	if isUsuarioIDValido(usuario_id) == false {
@@ -75,6 +92,11 @@ func ObterMoedas(usuario_id int) ([]model.Cripto, bool, util.HttpStatus) {
 	}
 }
 
+// Obter Moedas Busca Personalizada
+// A entidade usuario e utilizando parâmetros de busca,
+// após ser validada, é enviada para o repositório para buscar suas moedas
+// Se elas forem obtidas, é retornado as moedas associadas, true e o status associado
+// Se elas não forem obtidas, é retornado nil, false e o status associado
 func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompra string) ([]model.Cripto, bool, util.HttpStatus) {
 
 	if tipoMoeda == "" && dataDeCompra == "" {
@@ -107,6 +129,10 @@ func ObterMoedasBuscaPersonalizada(usuario_id int, tipoMoeda string, dataDeCompr
 	}
 }
 
+// Is Moeda Valida
+// Recebe uma entidade cripto para ser validada
+// Se ela atender todas as regras definidas, é retornado true
+// Se ela não atender uma das regras definidas, é retornado false
 func isMoedaValida(cripto model.Cripto) bool {
 
 	if isTipoMoedaValido(cripto.TipoMoeda) {
@@ -126,6 +152,10 @@ func isMoedaValida(cripto model.Cripto) bool {
 	return false
 }
 
+// Is Moeda E Usuario ID Valido
+// Recebe uma entidade cripto com usuário relacionado para ser buscada
+// Se ela existir, é retornado true
+// Se ela não existir, é retornado false
 func isMoedaEUsuarioIDValido(cripto model.Cripto) bool {
 
 	id := repository.ObterMoedaPeloID(cripto)
@@ -137,8 +167,13 @@ func isMoedaEUsuarioIDValido(cripto model.Cripto) bool {
 	}
 }
 
+// Is Tipo Moeda Valido
+// Recebe um tipo de moeda para ser validado
+// Se ela atender as regras definidas, é retornado true
+// Se ela não atender as regras definidas, é retornado false
 func isTipoMoedaValido(tipoMoeda string) bool {
 
+	// ! Formato aceito - Deve conter todas letras maiúsculas e pelo menos uma letra
 	tipoMoedaValido := regexp.MustCompile(`^[A-Z]+$`)
 
 	if tipoMoedaValido.MatchString(tipoMoeda) {
@@ -148,8 +183,13 @@ func isTipoMoedaValido(tipoMoeda string) bool {
 	return false
 }
 
+// Is Tipo Data De Compra Valida
+// Recebe uma data de compra para ser validada
+// Se ela atender as regras definidas, é retornado true
+// Se ela não atender as regras definidas, é retornado false
 func isDataDeCompraValida(dataDeCompra string) bool {
 
+	// ! Formato aceito - YYYY/MM/DD
 	dataDeCompraValida := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`)
 
 	if dataDeCompraValida.MatchString(dataDeCompra) {

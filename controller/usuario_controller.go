@@ -1,3 +1,5 @@
+// Package controller contém os controladores das entidades usuário e cripto
+// Contém também as rotas para operações com as entidades
 package controller
 
 import (
@@ -7,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Cadastrar Usuario
+// O usuario é recebido através de uma requisição e enviado para a etapa de serviço para ser validado e cadastrado
+// Se ele for cadastrado, é retornado uma resposta com número e mensagem de sucesso
+// Se ele não for cadastrado, é retornado uma resposta com número e mensagem de falha
 // CadastrarUsuario godoc
 // @Summary Cadastra um usuário
 // @Description Recebe um usuário e cadastra no sistema
@@ -36,6 +42,10 @@ func CadastrarUsuario(ctx *gin.Context) {
 	}
 }
 
+// Obter Usuario
+// O usuario é recebido através de uma requisição e enviado para a etapa de serviço para ser validado e buscado
+// Se ele for encontrado, é retornado uma resposta com número e o usuário buscado
+// Se ele não for encontrado, é retornado uma resposta com número e mensagem de falha
 func ObterUsuario(ctx *gin.Context) {
 
 	var usuario model.Usuario
@@ -56,6 +66,11 @@ func ObterUsuario(ctx *gin.Context) {
 	}
 }
 
+// Obter Dinheiro Inserido
+// O usuario é recebido através de uma requisição e enviado para a etapa de serviço
+// para ser validado e buscar seu dinheiro inserido
+// Se o dinheiro for encontrado, é retornado uma resposta com número e o dinheiro buscado
+// Se o dinheiro não for encontrado, é retornado uma resposta com número e mensagem de falha
 func ObterDinheiroInserido(ctx *gin.Context) {
 
 	var usuario model.Usuario

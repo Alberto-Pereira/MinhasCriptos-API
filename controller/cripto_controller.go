@@ -1,3 +1,5 @@
+// Package controller contém os controladores das entidades usuário e cripto
+// Contém também as rotas para operações com as entidades
 package controller
 
 import (
@@ -7,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Adicionar Moeda
+// A cripto é recebida através de uma requisição e enviada para a etapa de serviço para ser validada e adicionada
+// Se ela for adicionada, é retornado uma resposta com número e mensagem de sucesso
+// Se ela não for adicionada, é retornado uma resposta com número e mensagem de falha
 func AdicionarMoeda(ctx *gin.Context) {
 
 	var cripto model.Cripto
@@ -27,6 +33,10 @@ func AdicionarMoeda(ctx *gin.Context) {
 	}
 }
 
+// Editar Moeda
+// A cripto é recebida através de uma requisição e enviada para a etapa de serviço para ser validada e atualizada
+// Se ela for atualizada, é retornado uma resposta com número e mensagem de sucesso
+// Se ela não for atualizada, é retornado uma resposta com número e mensagem de falha
 func EditarMoeda(ctx *gin.Context) {
 
 	var cripto model.Cripto
@@ -47,6 +57,10 @@ func EditarMoeda(ctx *gin.Context) {
 	}
 }
 
+// Deletar Moeda
+// A cripto é recebida através de uma requisição e enviada para a etapa de serviço para ser validada e deletada
+// Se ela for deletada, é retornado uma resposta com número e mensagem de sucesso
+// Se ela não for deletada, é retornado uma resposta com número e mensagem de falha
 func DeletarMoeda(ctx *gin.Context) {
 
 	var cripto model.Cripto
@@ -67,6 +81,10 @@ func DeletarMoeda(ctx *gin.Context) {
 	}
 }
 
+// Obter Moedas
+// O usuario é recebido através de uma requisição e enviado para a etapa de serviço para ser validado e buscar suas moedas
+// Se elas forem encontradas, é retornado uma resposta com número e as moedas associadas
+// Se elas não forem encontradas, é retornado uma resposta com número e mensagem de falha
 func ObterMoedas(ctx *gin.Context) {
 
 	var usuario model.Usuario
@@ -87,6 +105,11 @@ func ObterMoedas(ctx *gin.Context) {
 	}
 }
 
+// Obter Moedas Busca Personalizada
+// A cripto é recebida através de uma requisição e enviada para a etapa de serviço para ser validada e buscar suas moedas
+// usando os parâmetros personalizados definidos
+// Se elas forem encontradas, é retornado uma resposta com número e as moedas associadas
+// Se elas não forem encontradas, é retornado uma resposta com número e mensagem de falha
 func ObterMoedasBuscaPersonalizada(ctx *gin.Context) {
 
 	var cripto model.Cripto

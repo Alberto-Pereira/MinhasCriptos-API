@@ -1,3 +1,5 @@
+// Package repository contém as operações de repositório das entidades usuário e cripto
+// Contém também a configuração do banco de dados
 package repository
 
 import (

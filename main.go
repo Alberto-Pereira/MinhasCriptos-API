@@ -17,7 +17,9 @@ import "minhascriptos/controller"
 // @BasePath  /
 func main() {
 
+	// Recebe o router
 	router := controller.SetupRouter()
 
+	// Inicializa o router
 	router.Run()
 }
