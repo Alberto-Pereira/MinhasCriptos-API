@@ -10,6 +10,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Autenticar Usuario
+// É fornecido um email para ser encontrado no banco de dados
+// Se ele for encontrado, é retornado uma entidade usuario com o email encontrado
+// Se ele não for encontrado, é retornado nil
 func AutenticarUsuario(email string) model.Usuario {
 
 	db := StartDB()
@@ -31,6 +35,10 @@ func AutenticarUsuario(email string) model.Usuario {
 	}
 }
 
+// Cadastrar Usuario
+// A entidade usuario é enviada para o banco de dados para ser cadastrada
+// Se ela for cadastrada, é retornado o id correspondente
+// Se ela não for cadastrada, é retornado 0
 func CadastrarUsuario(usuario model.Usuario) int {
 
 	db := StartDB()
@@ -48,6 +56,10 @@ func CadastrarUsuario(usuario model.Usuario) int {
 	}
 }
 
+// Obter Usuario
+// É fornecido um email e senha para encontrar um usuário no banco de dados
+// Se ele for encontrado, é retornado uma entidade usuario
+// Se ele não for encontrado, é retornado nil
 func ObterUsuario(email string, senha string) model.Usuario {
 
 	db := StartDB()
@@ -69,6 +81,10 @@ func ObterUsuario(email string, senha string) model.Usuario {
 	}
 }
 
+// Obter Dinheiro Inserido
+// É fornecido o id de um usuário para encontrar suas moedas registradas no banco de dados
+// Se elas forem encontradas, elas são retornadas
+// Se elas não forem encontradas, é retornado nil
 func ObterDinheiroInserido(usuario_id int) []model.DinheiroInserido {
 
 	db := StartDB()
@@ -117,6 +133,10 @@ func ObterDinheiroInserido(usuario_id int) []model.DinheiroInserido {
 	return dis
 }
 
+// Obter Usuario Pelo ID
+// É fornecido o id de um usuário para ser encontrado no banco de dados
+// Se ele for encontrado, seu id é retornado
+// Se ele não for encontrado, é retornado 0
 func ObterUsuarioPeloID(usuario_id int) int {
 
 	db := StartDB()
