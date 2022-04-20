@@ -1,0 +1,321 @@
+basePath: /
+definitions:
+  model.Cripto:
+    properties:
+      cripto_id:
+        type: integer
+      data_de_compra:
+        type: string
+      preco_de_compra:
+        type: number
+      quantidade_comprada:
+        type: number
+      tipo_moeda:
+        type: string
+      usuario_id:
+        $ref: '#/definitions/model.Usuario'
+      valor_da_unidade_no_dia_de_compra:
+        type: number
+    type: object
+  model.Usuario:
+    properties:
+      email:
+        type: string
+      nome:
+        type: string
+      senha:
+        type: string
+      user_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: alberto.pereira.dev@gmail.com
+    name: MinhasCriptos API Suporte
+    url: https://portfolio-alberto-pereira.herokuapp.com/contact
+  description: API Rest para a aplicação MinhasCriptos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: MinhasCriptos API
+  version: "1.0"
+paths:
+  /cripto/:
+    post:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar o tipo de moeda(UPPERCASE), data de compra(YYYY/MM/DD),
+          quantidade comprada, preço de compra, valor da unidade no dia de compra
+          e o id do usuário associado.
+        in: body
+        name: cripto
+        schema:
+          $ref: '#/definitions/model.Cripto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Adiciona uma moeda
+      tags:
+      - Cripto
+    put:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar o id da moeda, tipo de moeda(UPPERCASE), data de compra(YYYY/MM/DD),
+          quantidade comprada, preço de compra, valor da unidade no dia de compra
+          e o id do usuário associado.
+        in: body
+        name: cripto
+        schema:
+          $ref: '#/definitions/model.Cripto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Atualiza uma moeda
+      tags:
+      - Cripto
+  /cripto/{idMoeda}/{idUsuario}:
+    delete:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar o id da moeda
+        in: path
+        name: idMoeda
+        required: true
+        type: integer
+      - description: Informar o id do usuário
+        in: path
+        name: idUsuario
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Deleta uma moeda
+      tags:
+      - Cripto
+  /cripto/{idUsuario}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar o id do usuário que deseja obter moedas
+        in: path
+        name: idUsuario
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Obtém moedas de um usuário
+      tags:
+      - Cripto
+  /cripto/busca-personalizada/{idUsuario}/{tipoMoeda}/{dataDeCompra}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar o id do usuário que deseja obter moedas
+        in: path
+        name: idUsuario
+        required: true
+        type: integer
+      - description: Informar o parâmetro tipo de moeda (UPPERCASE)
+        in: path
+        name: tipoMoeda
+        type: string
+      - description: Informar o parâmetro data de compra (YYYY-MM-DD)
+        in: path
+        name: dataDeCompra
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Obtém moedas de um usuário com parâmetros personalizados
+      tags:
+      - Cripto
+  /usuario/:
+    post:
+      consumes:
+      - application/json
+      description: Retorna uma mensagem associada a operação
+      parameters:
+      - description: Informar nome, email e senha.
+        in: body
+        name: usuario
+        schema:
+          $ref: '#/definitions/model.Usuario'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "406":
+          description: Not Acceptable
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Cadastra um usuário
+      tags:
+      - Usuário
+  /usuario/{email}/{senha}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna um usuário cadastrado
+      parameters:
+      - description: Informar o email do usuário a ser encontrado.
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: Informar a senha correspondente ao email.
+        in: path
+        name: senha
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "406":
+          description: Not Acceptable
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Obtém um usuário
+      tags:
+      - Usuário
+  /usuario/total/{total}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna o dinheiro de um usuário cadastrado
+      parameters:
+      - description: Informar o id do usuário a qual desejar buscar o dinheiro inserido.
+        in: path
+        name: total
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Obtém o dinheiro inserido de um usuário cadastrado
+      tags:
+      - Usuário
+swagger: "2.0"

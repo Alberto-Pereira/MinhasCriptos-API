@@ -1,6 +1,12 @@
 package main
 
-import "minhascriptos/controller"
+import (
+	"minhascriptos/controller"
+	"minhascriptos/docs"
+
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
 
 // @title           MinhasCriptos API
 // @version         1.0
@@ -19,6 +25,12 @@ func main() {
 
 	// Recebe o router
 	router := controller.SetupRouter()
+
+	// O caminho do swagger
+	docs.SwaggerInfo.BasePath = "/"
+
+	// Rota do swagger
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// Inicializa o router
 	router.Run()

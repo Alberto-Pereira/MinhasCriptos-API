@@ -11,33 +11,37 @@ func SetupRouter() *gin.Engine {
 	// Recebe o router
 	router := gin.Default()
 
-	// Usuário
+	// Grupo de rotas de usuário
+	usuario := router.Group("/usuario")
+	{
+		// Rota para cadastro de usuário
+		usuario.POST("/", CadastrarUsuario)
 
-	// Rota para cadastro de usuário
-	router.POST("/usuario", CadastrarUsuario)
+		// Rota para obter usuário
+		usuario.GET("/:email/:senha", ObterUsuario)
 
-	// Rota para obter usuário
-	router.GET("/usuario", ObterUsuario)
+		// Rota para obter dinheiro inserido para aquele usuário fornecido
+		usuario.GET("/total/:total", ObterDinheiroInserido)
+	}
 
-	// Rota para obter dinheiro inserido para aquele usuário fornecido
-	router.GET("/total", ObterDinheiroInserido)
+	// Grupo de rotas de cripto
+	cripto := router.Group("/cripto")
+	{
+		// Rota para adicionar moeda
+		cripto.POST("/", AdicionarMoeda)
 
-	// Cripto
+		// Rota para atualizar moeda
+		cripto.PUT("/", EditarMoeda)
 
-	// Rota para adicionar moeda
-	router.POST("/cripto", AdicionarMoeda)
+		// Rota para deletar moeda
+		cripto.DELETE("/:idMoeda/:idUsuario", DeletarMoeda)
 
-	// Rota para atualizar moeda
-	router.PUT("/cripto", EditarMoeda)
+		// Rota para obter moedas
+		cripto.GET("/:idUsuario", ObterMoedas)
 
-	// Rota para deletar moeda
-	router.DELETE("/cripto", DeletarMoeda)
-
-	// Rota para obter moedas
-	router.GET("/cripto", ObterMoedas)
-
-	// Rota para obter moedas com parâmetros personalizados
-	router.GET("/criptos-busca-personalizada", ObterMoedasBuscaPersonalizada)
+		// Rota para obter moedas com parâmetros personalizados
+		cripto.GET("/busca-personalizada/:idUsuario/:tipoMoeda/:dataDeCompra", ObterMoedasBuscaPersonalizada)
+	}
 
 	return router
 }

@@ -1,0 +1,481 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Rest para a aplicação MinhasCriptos",
+        "title": "MinhasCriptos API",
+        "contact": {
+            "name": "MinhasCriptos API Suporte",
+            "url": "https://portfolio-alberto-pereira.herokuapp.com/contact",
+            "email": "alberto.pereira.dev@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/cripto/": {
+            "put": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cripto"
+                ],
+                "summary": "Atualiza uma moeda",
+                "parameters": [
+                    {
+                        "description": "Informar o id da moeda, tipo de moeda(UPPERCASE), data de compra(YYYY/MM/DD), quantidade comprada, preço de compra, valor da unidade no dia de compra e o id do usuário associado.",
+                        "name": "cripto",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/model.Cripto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cripto"
+                ],
+                "summary": "Adiciona uma moeda",
+                "parameters": [
+                    {
+                        "description": "Informar o tipo de moeda(UPPERCASE), data de compra(YYYY/MM/DD), quantidade comprada, preço de compra, valor da unidade no dia de compra e o id do usuário associado.",
+                        "name": "cripto",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/model.Cripto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cripto/busca-personalizada/{idUsuario}/{tipoMoeda}/{dataDeCompra}": {
+            "get": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cripto"
+                ],
+                "summary": "Obtém moedas de um usuário com parâmetros personalizados",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Informar o id do usuário que deseja obter moedas",
+                        "name": "idUsuario",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Informar o parâmetro tipo de moeda (UPPERCASE)",
+                        "name": "tipoMoeda",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Informar o parâmetro data de compra (YYYY-MM-DD)",
+                        "name": "dataDeCompra",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cripto/{idMoeda}/{idUsuario}": {
+            "delete": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cripto"
+                ],
+                "summary": "Deleta uma moeda",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Informar o id da moeda",
+                        "name": "idMoeda",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Informar o id do usuário",
+                        "name": "idUsuario",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cripto/{idUsuario}": {
+            "get": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cripto"
+                ],
+                "summary": "Obtém moedas de um usuário",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Informar o id do usuário que deseja obter moedas",
+                        "name": "idUsuario",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuario/": {
+            "post": {
+                "description": "Retorna uma mensagem associada a operação",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Cadastra um usuário",
+                "parameters": [
+                    {
+                        "description": "Informar nome, email e senha.",
+                        "name": "usuario",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/model.Usuario"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuario/total/{total}": {
+            "get": {
+                "description": "Retorna o dinheiro de um usuário cadastrado",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Obtém o dinheiro inserido de um usuário cadastrado",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Informar o id do usuário a qual desejar buscar o dinheiro inserido.",
+                        "name": "total",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuario/{email}/{senha}": {
+            "get": {
+                "description": "Retorna um usuário cadastrado",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Obtém um usuário",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Informar o email do usuário a ser encontrado.",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Informar a senha correspondente ao email.",
+                        "name": "senha",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Cripto": {
+            "type": "object",
+            "properties": {
+                "cripto_id": {
+                    "type": "integer"
+                },
+                "data_de_compra": {
+                    "type": "string"
+                },
+                "preco_de_compra": {
+                    "type": "number"
+                },
+                "quantidade_comprada": {
+                    "type": "number"
+                },
+                "tipo_moeda": {
+                    "type": "string"
+                },
+                "usuario_id": {
+                    "$ref": "#/definitions/model.Usuario"
+                },
+                "valor_da_unidade_no_dia_de_compra": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.Usuario": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "senha": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
