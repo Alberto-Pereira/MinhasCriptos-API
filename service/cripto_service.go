@@ -47,7 +47,7 @@ func EditarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 
 	isMoedaEditadaID := repository.EditarMoeda(cripto)
 
-	if isMoedaEditadaID != cripto.ID {
+	if isMoedaEditadaID != cripto.ID || isMoedaEditadaID == 0 {
 		return false, util.HttpStatus{ID: 500, Mensagem: "Erro desconhecido ao tentar editar moeda!"}
 	} else {
 		return true, util.HttpStatus{ID: 200, Mensagem: "Moeda editada!"}
@@ -66,7 +66,7 @@ func DeletarMoeda(cripto model.Cripto) (bool, util.HttpStatus) {
 
 	isMoedaDeletada := repository.DeletarMoeda(cripto)
 
-	if isMoedaDeletada != cripto.ID {
+	if isMoedaDeletada != cripto.ID || isMoedaDeletada == 0 {
 		return false, util.HttpStatus{ID: 500, Mensagem: "Erro desconhecido ao deletar moeda!"}
 	} else {
 		return true, util.HttpStatus{ID: 200, Mensagem: "Moeda deletada!"}

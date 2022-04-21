@@ -1,0 +1,43 @@
+# Versão do docker-compose.yml
+version: "3.9"
+
+# Serviços
+services:
+  # Banco de dados - postgres
+  db:
+    # Nome do container
+    container_name: postgres
+    # Imagem utilizada
+    image: postgres:alpine
+    # Variáveis de ambiente
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: minhascriptos
+    # Porta
+    ports:
+      - "5000:5432"
+    # Diretório do arquivo a ser persistido dados
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  # API Rest
+  go:
+    # Nome do container
+    container_name: go
+    # Faz a build utilizando o dockerfile
+    build:
+      context: .
+    # Porta
+    ports:
+      - "8080:8080"
+    # Dependência
+    depends_on:
+      - "db"
+    # Linka
+    links: 
+      - "db"
+
+volumes:
+  # Cria o volume para persistir dados
+  dbdata: 
