@@ -15,7 +15,7 @@
 
 ## 💻 Sobre: <a name="about"></a>
 
-MinhasCriptos – API é uma API Rest desenvolvida com GO para atender a aplicação web <a href="https://github.com/Alberto-Pereira/MinhasCriptos">MinhasCriptos</a>.
+MinhasCriptos – API é uma API Rest desenvolvida em GO para atender a aplicação web <a href="https://minhascriptos.netlify.app/">MinhasCriptos</a>.
 
 ## 🏛 Estrutura: <a name="pattern"></a>
 
