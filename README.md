@@ -36,12 +36,15 @@ A API é dividida em duas partes:
 ```bash
 git clone https://github.com/Alberto-Pereira/MinhasCriptos-API
 ```
-⚠ No diretório clonado:
-- Fazer a build da aplicação.
+⚠ Acesse o diretório clonado:
+```bash
+cd MinhasCriptos-API
+```
+- Fazer a build da aplicação:
 ```bash
 docker-compose build
 ```
-- Iniciar a aplicação.
+- Iniciar a aplicação:
 ```bash
 docker-compose up
 ```
