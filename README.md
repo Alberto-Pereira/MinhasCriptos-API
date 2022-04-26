@@ -12,9 +12,9 @@
 
 MinhasCriptos será uma aplicação web para gerência e controle pessoal de criptomoedas. Será possível acompanhar a valorização das moedas adicionadas, o quanto já foi gasto, qual o retorno atual, o histórico de moedas e outras funcionalidades.
 
-## 🏛 Estrutura: <a name="pattern"></a>
-
 MinhasCriptos – API é uma API Rest desenvolvida em GO para atender a aplicação web <a href="https://minhascriptos.netlify.app/">MinhasCriptos (WIP)</a>.
+
+## 🏛 Estrutura: <a name="pattern"></a>
 
 A API é dividida em duas partes:
   
