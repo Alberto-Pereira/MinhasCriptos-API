@@ -14,7 +14,7 @@ MinhasCriptos será uma aplicação web para gerência e controle pessoal de cri
 
 ## 🏛 Estrutura: <a name="pattern"></a>
 
-MinhasCriptos – API é uma API Rest desenvolvida em GO para atender a aplicação web <a href="https://minhascriptos.netlify.app/">MinhasCriptos</a>.
+MinhasCriptos – API é uma API Rest desenvolvida em GO para atender a aplicação web <a href="https://minhascriptos.netlify.app/">MinhasCriptos (WIP)</a>.
 
 A API é dividida em duas partes:
   
