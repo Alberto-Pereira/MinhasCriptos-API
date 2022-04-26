@@ -4,10 +4,8 @@
 
 - [Sobre](#about)
 - [Estrutura](#pattern)
-- [Como baixar e executar:](#comobaixar)
-- [Executar as operações com:](#op)
-    - [Swagger](#swagger)
-    - [API Clients(Postman, Insomnia, etc.)](#opapiclient)
+- [Como baixar e iniciar](#comobaixar)
+- [Executar as operações com Swagger](#swagger)
 - [Futuras atualizações](#update)
 
 ## 💻 Sobre: <a name="about"></a>
@@ -32,11 +30,28 @@ A API é dividida em duas partes:
     - Obter moedas.
     - Obter moedas com parâmetros personalizados.
 
-## 🐳 Como baixar e executar: <a name="comobaixar"></a>
-- Ter o <a href="https://www.docker.com/products/docker-desktop/">Docker</a> e Docker Compose instalado.
+## 🐳 Como baixar e iniciar: <a name="comobaixar"></a>
+⚠ Ter o <a href="https://www.docker.com/products/docker-desktop/">Docker</a> e Docker Compose instalado.
 - Clonar o repositório:
 ```bash
 git clone https://github.com/Alberto-Pereira/MinhasCriptos-API
 ```
+⚠ No diretório clonado:
+- Fazer a build da aplicação.
+```bash
+docker-compose build
+```
+- Iniciar a aplicação.
+```bash
+docker-compose up
+```
+## 🧵 Executar as operações com Swagger: <a name="swagger"></a>
 
-## 🧵 Executar as operações com: <a name="op"></a>
+👉 Com a aplicação iniciada, é possível executar operações clicando <a href="http://localhost:8080/swagger/index.html">aqui</a>.
+
+## ⚡ Futuras atualizações: <a name="update"></a>
+
+- Autenticação com JWT:
+    - Será implementado autenticação com JWT quando a aplicação atingir a meta de usuários. No momento a aplicação será local.
+- Documentação em inglês: 
+    - Documentação do código em inglês para melhor entendimento.
