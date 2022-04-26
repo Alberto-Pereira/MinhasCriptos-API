@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Versão escolhida do golang
-FROM golang:1.18-alpine
+FROM golang:1.18
 
 # Diretório da imagem
 WORKDIR /app
