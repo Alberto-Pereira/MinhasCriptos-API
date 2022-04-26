@@ -12,7 +12,7 @@
 
 ## 💻 Sobre: <a name="about"></a>
 
-MinhasCriptos será uma aplicação web para gerência e controle de criptomoedas. Será possível acompanhar a valorização das moedas adicionadas, o quanto já foi gasto, qual o retorno atual, o histórico de moedas e outras funcionalidades.
+MinhasCriptos será uma aplicação web para gerência e controle pessoal de criptomoedas. Será possível acompanhar a valorização das moedas adicionadas, o quanto já foi gasto, qual o retorno atual, o histórico de moedas e outras funcionalidades.
 
 ## 🏛 Estrutura: <a name="pattern"></a>
 
@@ -32,9 +32,7 @@ A API é dividida em duas partes:
     - Obter moedas.
     - Obter moedas com parâmetros personalizados.
 
-## 🔥 Como baixar e executar: <a name="comobaixar"></a>
-
-## 🐳 Docker: <a name="executardocker"></a>
+## 🐳 Como baixar e executar: <a name="comobaixar"></a>
 - Ter o <a href="https://www.docker.com/products/docker-desktop/">Docker</a> e Docker Compose instalado.
 - Clonar o repositório:
 ```bash
