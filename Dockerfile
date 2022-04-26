@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Versão escolhida do golang
-FROM golang:1.18
+FROM golang:1.18-alpine
 
 # Diretório da imagem
 WORKDIR /app
@@ -19,8 +19,8 @@ COPY . .
 # Fazer a build da api
 RUN go build -o /docker-minhascriptos-api
 
-# Porta da api
+# Porta do usuário : porta do container
 EXPOSE 8080:8080
 
-# Permissão para executar comandos
+# Executar
 CMD [ "/docker-minhascriptos-api" ]

@@ -17,9 +17,9 @@ services:
     # Porta
     ports:
       - "5000:5432"
-    # Diretório do arquivo a ser persistido dados
+    # Script sql a ser executado quando container subir
     volumes: 
-      - dbdata:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d
 
   # API Rest
   go:
@@ -37,7 +37,3 @@ services:
     # Linka
     links: 
       - "db"
-
-volumes:
-  # Cria o volume para persistir dados
-  dbdata: 
