@@ -12,7 +12,7 @@
 
 ## 💻 Sobre: <a name="about"></a>
 
-MinhasCriptos será uma aplicação web para gerência e controle de criptomoedas. Será possível acompanhar se as moedas adicionadas tiveram valorização, o quanto já foi gasto, qual o retorno atual, histórico de moedas e outras funcionalidades.
+MinhasCriptos será uma aplicação web para gerência e controle de criptomoedas. Será possível acompanhar a valorização das moedas adicionadas, o quanto já foi gasto, qual o retorno atual, o histórico de moedas e outras funcionalidades.
 
 ## 🏛 Estrutura: <a name="pattern"></a>
 
